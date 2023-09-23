@@ -1,13 +1,18 @@
 import React from 'react';
 
-const DateSelector = ({onchange, defaultValue, setIsChecked, ...props}) => {
+const DateSelector = ({onchange, defaultValue, references, ...props}) => {
+    const fireOnChangeEvent = (args) => {
+        onchange(args)
+        references.forEach(ref => ref.current.checked = false)
+    }
+
     return (
         <input
             onClick={(args) => args.target.showPicker()}
             name="btnradio"
             type="date"
             className="btn btn-primary"
-            onChange={onchange}
+            onChange={fireOnChangeEvent}
             defaultValue={defaultValue}
             {...props}
         />
