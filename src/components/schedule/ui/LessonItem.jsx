@@ -1,16 +1,21 @@
 import React from 'react';
+import OutageStatus from "./OutageStatus.jsx";
 
 const LessonItem = ({item, ...props}) => {
     const shortTime = `${item.start.slice(0, 5)}-${item.end.slice(0, 5)}`;
 
     let abbrTeacher = item.teacher;
-    if (abbrTeacher.length) {
+    if (abbrTeacher?.length) {
         abbrTeacher = abbrTeacher.split(" ");
-        abbrTeacher = `${abbrTeacher[0]} ${abbrTeacher[1][0]}. ${abbrTeacher[2][0]}.`;
+        abbrTeacher = `${abbrTeacher[0]} ${abbrTeacher[1][0]}.${abbrTeacher[2][0]}.`;
     }
     return (
         <tr {...props}>
-            <td></td>
+            {
+                (item.outages?.length)
+                    ? <OutageStatus outages={item.outages} />
+                    : <td></td>
+            }
             <td>{shortTime}</td>
             <td>{item.discipline}</td>
             <td>{item.studyType}</td>
