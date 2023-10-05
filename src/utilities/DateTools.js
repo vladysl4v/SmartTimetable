@@ -12,4 +12,8 @@ export default class DateTools {
     static toShortISOString(date) {
         return date.toISOString().slice(0, 10)
     }
+
+    static toLongISOString(date) {
+        return date.toISOString().slice(0, 19)
+    }
 }

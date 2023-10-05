@@ -1,31 +1,18 @@
-import {useEffect, useState} from "react";
-import ScheduleBar from "./components/ScheduleBar";
-import ScheduleButtons from "./components/ScheduleButtons";
-import RequestService from "./utilities/RequestService";
-import ScheduleTable from "./components/ScheduleTable";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Schedule from "./pages/Schedule";
+import Settings from "./pages/Settings";
 
-const todayDate = new Date();
+import React from "react";
 
- function App() {
-     async function fetchSchedule() {
-         setIsScheduleLoading(true)
-         const response = await RequestService.getSchedule(displayDate)
-         setIsScheduleLoading(false)
-         setLessons(response)
-     }
-     const [isScheduleLoading, setIsScheduleLoading] = useState(false)
-     const [displayDate, setDisplayDate] = useState(todayDate)
-     const [lessons, setLessons] = useState([])
-
-     useEffect(() => { fetchSchedule() }, [displayDate])
-
+function App() {
+    const todayDate = new Date();
       return (
-        <div className="App">
-            <ScheduleBar displayDate={displayDate} isLoading={isScheduleLoading}  />
-            <ScheduleButtons displayDate={todayDate} setDisplayDate={setDisplayDate} />
-            <ScheduleTable elements={lessons}/>
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/settings" element={ <Settings /> } />
+                <Route path="/" element={ <Schedule date={todayDate} /> } />
+            </Routes>
+        </BrowserRouter>
       );
 }
-
 export default App;
