@@ -4,6 +4,7 @@ import LoginButton from "./ui/LoginButton";
 import {MSALScopes} from "../../utilities/MSALConfig";
 import RequestService from "../../utilities/RequestService";
 
+import microsoftImage from '/media/microsoft-account.svg';
 const ProfileSection = () => {
     const authorizePopup = async () => {
         try {
@@ -27,7 +28,7 @@ const ProfileSection = () => {
         <>
             <UnauthenticatedTemplate>
                 <div>
-                    <img style={{height:'100px', margin: '10px'}} src={process.env.PUBLIC_URL + "/media/microsoft-account.svg"} alt="Microsoft Account"/>
+                    <img style={{height:'100px', margin: '10px'}} src={microsoftImage} alt="Microsoft Account"/>
                 </div>
                 <LoginButton text=" Увійти за допомогою Microsoft" loginStatus={inProgress} onclick={authorizePopup}/>
                 <p className="p-2">Увійдіть до свого аккаунту для доступу до персональних функцій</p>

@@ -2,6 +2,9 @@ import React from 'react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
+import noElectricity from '/media/no-electricity.png';
+import maybeElectricity from '/media/maybe-electricity.png';
+
 const OutageStatus = ({outages}) => {
     const getPopover = () => (
         <Popover id="popover-basic">
@@ -15,8 +18,8 @@ const OutageStatus = ({outages}) => {
         </Popover>
     );
     const outage_img = outages.some((outage) => outage.isDefinite)
-        ? process.env.PUBLIC_URL + "/media/no-electricity.png"
-        : process.env.PUBLIC_URL + "/media/maybe-electricity.png"
+        ? noElectricity
+        : maybeElectricity
 
     return (
         <OverlayTrigger trigger="click" placement="top" overlay={getPopover()}>
