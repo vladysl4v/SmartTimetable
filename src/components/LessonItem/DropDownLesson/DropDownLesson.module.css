@@ -1,0 +1,13 @@
+.mainTable {
+    border-width:3px;
+    border-top: none;
+    border-inline: 4px solid #0077ff;
+}
+
+.leader {
+    border-top: none;
+}
+
+.reallyBordered {
+    border-width: 2px;
+}
