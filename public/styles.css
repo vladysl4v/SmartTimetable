@@ -11,17 +11,3 @@ body {
 .root-bg {
     min-height: 250px;
 }
-
-.fa-hover-spin:hover {
-    -webkit-animation: infinite-spinning 2s ease-out 0s infinite normal;
-    animation: infinite-spinning 2s ease-out 0s infinite normal;
-}
-
-@keyframes infinite-spinning {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}

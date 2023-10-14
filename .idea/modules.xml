@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/LightTimetable-Web.iml" filepath="$PROJECT_DIR$/.idea/LightTimetable-Web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SmartTimetable.iml" filepath="$PROJECT_DIR$/.idea/SmartTimetable.iml" />
     </modules>
   </component>
 </project>

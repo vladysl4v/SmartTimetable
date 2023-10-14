@@ -1,36 +1,19 @@
 import React from 'react';
 import {AuthenticatedTemplate, UnauthenticatedTemplate, useMsal} from "@azure/msal-react";
-import LoginButton from "./ui/LoginButton";
-import {MSALScopes} from "../../utilities/MSALConfig";
-import RequestService from "../../utilities/RequestService";
+import LoginButton from "../LoginButton/LoginButton.jsx";
 
+import styles from './ProfileSection.module.css'
 import microsoftImage from '/media/microsoft-account.svg';
+import {MSALScopes} from "../../utilities/MSALConfig.js";
 const ProfileSection = () => {
-    const authorizePopup = async () => {
-        try {
-            const response = await instance.loginPopup(MSALScopes)
-            await RequestService.addNote(response.accessToken)
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    const logoutPopup = async () => {
-        try {
-            await instance.logoutPopup()
-        } catch (error) {
-            console.error(error)
-        }
-    }
     const { instance, inProgress } = useMsal();
-
     return (
         <>
             <UnauthenticatedTemplate>
                 <div>
-                    <img style={{height:'100px', margin: '10px'}} src={microsoftImage} alt="Microsoft Account"/>
+                    <img className={styles.accountImage} src={microsoftImage} alt="Microsoft Account"/>
                 </div>
-                <LoginButton text=" Увійти за допомогою Microsoft" loginStatus={inProgress} onclick={authorizePopup}/>
+                <LoginButton text=" Увійти за допомогою Microsoft" loginStatus={inProgress} onclick={() => authorizePopup(instance)}/>
                 <p className="p-2">Увійдіть до свого аккаунту для доступу до персональних функцій</p>
             </UnauthenticatedTemplate>
 
@@ -39,11 +22,27 @@ const ProfileSection = () => {
                     <p>Персональні налаштування розкладу</p>
                     <em className="text-decoration-underline">Ви авторизовані до аккаунту Microsoft</em>
                 </div>
-                <LoginButton text=" Вийти з аккаунту" loginStatus={inProgress} onclick={logoutPopup}/>
+                <LoginButton text=" Вийти з аккаунту" loginStatus={inProgress} onclick={() => logoutPopup(instance)}/>
                 <hr style={{marginTop: "20px"}}/>
             </AuthenticatedTemplate>
         </>
     );
 };
+
+const authorizePopup = async (instance) => {
+    try {
+        await instance.loginPopup(MSALScopes)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+const logoutPopup = async (instance) => {
+    try {
+        await instance.logoutPopup()
+    } catch (error) {
+        console.error(error)
+    }
+}
 
 export default ProfileSection;

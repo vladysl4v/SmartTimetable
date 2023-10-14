@@ -1,0 +1,22 @@
+.grouping {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.datePicker {
+    min-width: 45px;
+}
+
+.iconSpin:hover {
+    -webkit-animation: infinite-spinning 2s ease-out 0s infinite normal;
+    animation: infinite-spinning 2s ease-out 0s infinite normal;
+}
+
+@keyframes infinite-spinning {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

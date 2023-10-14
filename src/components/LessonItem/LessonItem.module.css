@@ -1,0 +1,14 @@
+.expandedHeader td {
+    background-color: #0077ff !important;
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+.expandedHeader tr {
+    border: 3px solid;
+}
+
+.beauty {
+    text-decoration: none !important;
+    border: none;
+}

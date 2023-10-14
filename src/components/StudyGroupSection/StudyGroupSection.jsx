@@ -1,31 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import FilterSelector from "./ui/FilterSelector";
-import RequestService from "../../utilities/RequestService";
+import FilterSelector from "../FilterSelector/FilterSelector.jsx";
 import {useCookies} from "react-cookie";
+import Requests from "../../utilities/Requests.js";
 
 const StudyGroupSection = () => {
-    async function loadFilters() {
-        const filters = (await RequestService.getSettingsFilters())?.filters
-        filters.outageGroups = (await RequestService.getOutagesGroups())?.outageGroups
-        filters.studyGroups = (await loadStudyGroups())?.studyGroups
-        setFiltersData(filters)
-    }
-    async function loadStudyGroups() {
-        if (cookies.course && cookies.faculty && cookies.educForm)
-        {
-            return await RequestService.getStudyGroups(cookies.faculty, cookies.course, cookies.educForm)
-        }
-    }
-    async function SetStudyGroups() {
-        const data = await loadStudyGroups();
-        setFiltersData({...filtersData, studyGroups: data?.studyGroups})
-    }
-
     const [cookies, setCookie] = useCookies(['faculty', 'educForm', 'course', 'studyGroup']);
     const [filtersData, setFiltersData] = useState({faculties: [], courses: [], educForms: [], studyGroups: []})
 
-    useEffect(() => { loadFilters() }, [])
-    useEffect(() => { SetStudyGroups() }, [cookies])
+    useEffect(() => { loadAllFilters(cookies, setFiltersData) }, [])
+    useEffect(() => { refreshStudyGroups(cookies, setFiltersData, filtersData) }, [cookies])
     return (
         <>
             <p>Налаштування навчальної групи</p>
@@ -38,5 +21,26 @@ const StudyGroupSection = () => {
         </>
     );
 };
+
+const loadAllFilters = async (cookies, setFilters) => {
+    const filtersResponse = await Requests.getFilters()
+    const outagesResponse = await Requests.getOutagesGroups()
+    const groupsResponse = await Requests.getStudyGroups(cookies.faculty, cookies.course, cookies.educForm)
+    if (filtersResponse.status !== 200 || outagesResponse.status !== 200) {
+        return
+    }
+    const filters = filtersResponse.data.filters
+    filters.outageGroups = outagesResponse.data.outageGroups
+    filters.studyGroups = groupsResponse?.data.studyGroups
+
+    setFilters(filters)
+}
+
+const refreshStudyGroups = async (cookies, setFilters, filters) => {
+    const groupsResponse = await Requests.getStudyGroups(cookies.faculty, cookies.course, cookies.educForm)
+    if (groupsResponse?.status === 200) {
+        setFilters({...filters, studyGroups: groupsResponse.data.studyGroups})
+    }
+}
 
 export default StudyGroupSection;

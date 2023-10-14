@@ -1,63 +1,57 @@
-import React, {useEffect, useState} from "react";
-import CardHeader from "../components/public/CardHeader";
-import ScheduleButtons from "../components/schedule/ScheduleButtons";
-import RequestService from "../utilities/RequestService";
-import ScheduleTable from "../components/schedule/ScheduleTable";
-import {Link} from "react-router-dom";
-import DateTools from "../utilities/DateTools";
-import {useAccount, useMsal} from "@azure/msal-react";
-import {MSALScopes} from "../utilities/MSALConfig";
-import {useCookies} from "react-cookie";
+import React, {useRef} from "react";
+import ScheduleTable from "../components/ScheduleTable/ScheduleTable.jsx";
+import useSchedule from "../hooks/useSchedule.js";
+import Title from "../components/Title/Title.jsx";
 
-function Schedule({date}) {
-    async function fetchPersonalSchedule() {
-        setIsScheduleLoading(true)
-        if (!account) {
-            return;
-        }
-        const tokenResponse = await instance.acquireTokenSilent({
-            scopes: MSALScopes.scopes,
-            account: account,
-        });
-        if (!tokenResponse) {
-            return;
-        }
-        const response = await RequestService.getPersonalSchedule(displayDate, tokenResponse.accessToken)
-        setIsScheduleLoading(false)
-        if (response) {
-            setLessons(response.schedule)
-        }
-    }
-    async function fetchAnonSchedule() {
-        if (cookies.studyGroup === "") {
-            return;
-        }
-        setIsScheduleLoading(true)
-        const response = await RequestService.getAnonymousSchedule(displayDate, cookies.studyGroup, cookies.outageGroup)
-        setIsScheduleLoading(false)
-        if (response) {
-            setLessons(response.schedule)
-        }
-    }
-    const { instance, accounts } = useMsal();
-    const account = useAccount(accounts[0]);
+import styles from './Schedule.module.css'
+import {useMsal} from "@azure/msal-react";
 
-    const [isScheduleLoading, setIsScheduleLoading] = useState(false)
-    const [displayDate, setDisplayDate] = useState(date)
-    const [lessons, setLessons] = useState([])
-    const [cookies] = useCookies(['studyGroup', 'outageGroup'])
-
-    useEffect(() => { fetchAnonSchedule() }, [displayDate])
+const Schedule = () => {
+    const msalClient = useMsal()
+    const references = [useRef(null), useRef(null), useRef(null)]
+    const [schedule, loading, date, setDate] = useSchedule(msalClient)
 
     return (
         <div className="App">
-            <CardHeader text={`Розклад занять на ${DateTools.toString(displayDate)}`} textStyle={{marginLeft: '2.75em'}} isLoading={isScheduleLoading} >
-                <Link style={{height: 'fit-content'}} to="/settings"><i style={{color: '#000000'}} className="fa-solid fa-hover-spin fa-gear fa-2x"></i></Link>
-            </CardHeader>
-            <ScheduleButtons displayDate={date} setDisplayDate={setDisplayDate} />
-            <ScheduleTable elements={lessons}/>
+            <Title navigation="/settings" iconStyles={["fa-solid fa-gear", styles.iconSpin].join(' ')} loading={loading}>{`Розклад занять на ${date.toLocaleDateString('uk-UA')}`}</Title>
+            <section className={"btn-group mt-4 d-flex justify-content-center " + styles.grouping} role="group">
+                <DateButton id="yesterday" onclick={() => changeDate(-1, setDate)} link={references[0]}>Учора</DateButton>
+                <DateButton id="today" onclick={() => changeDate(0, setDate)} link={references[1]} isChecked={true}>Сьогодні</DateButton>
+                <DateButton id="tomorrow" onclick={() => changeDate(+1, setDate)} link={references[2]}>Завтра</DateButton>
+                <input
+                    onClick={showPicker}
+                    defaultValue={new Date().toISOString().slice(0, 10)}
+                    onChange={(args) => changeDateFromPicker(args, setDate, references)}
+                    type="date"
+                    name="btnradio"
+                    className={"btn btn-primary " + styles.datePicker} />
+            </section>
+            <ScheduleTable elements={schedule} msalClient={msalClient}/>
         </div>
     );
 }
 
+const DateButton = ({id, onclick, link, isChecked = false, ...props}) => {
+    return (
+        <>
+            <input id={id} name="btnradio" type="radio" autoComplete="off" ref={link} defaultChecked={isChecked} className="btn-check"/>
+            <label className="btn btn-primary" htmlFor={id} onClick={onclick}>{props.children}</label>
+        </>
+    );
+};
+
+const showPicker = (args) => {
+    args.target.showPicker()
+}
+
+const changeDateFromPicker = (args, setDate, references) => {
+    setDate(args.target.valueAsDate)
+    references.forEach(ref => ref.current.checked = false)
+}
+
+const changeDate = (amount, setDate) => {
+    const date = new Date()
+    date.setDate(date.getDate() + amount)
+    setDate(date)
+}
 export default Schedule;
