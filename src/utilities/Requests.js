@@ -69,4 +69,14 @@ export default class Requests {
             "message": message
         }, requestConfig)
     }
+
+    static async deleteNote(noteId, accessToken) {
+        const requestUrl = `${this.API_URL}/notes/${noteId}`
+        const requestConfig = {
+            headers: {
+                'Authorization': `BEARER ${accessToken}`
+            }
+        }
+        return await axios.delete(requestUrl, requestConfig)
+    }
 }

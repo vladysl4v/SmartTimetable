@@ -28,6 +28,12 @@ const loadSchedule = async (accounts, date, cookies, instance, setLoading, setSc
         response = await getAnonymousSchedule(datetime, cookies)
     }
     if (response.status === 200) {
+        response.data.schedule.forEach(item => {
+            item.notes.forEach(note => {
+                note.creationDate = new Date(note.creationDate)
+                note.creationDate.setTime(note.creationDate.getTime() + note.creationDate.getTimezoneOffset() * 60000)
+            })
+        })
         setSchedule(response.data.schedule)
     }
     setLoading(false)
