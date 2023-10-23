@@ -1,6 +1,6 @@
 import Modal from "react-bootstrap/Modal";
 import {Form, Spinner} from "react-bootstrap";
-import styles from "../NoteItem.module.css";
+import styles from "../../LessonItem.module.css";
 import Button from "react-bootstrap/Button";
 import React, {useState} from "react";
 import {MSALScopes} from "../../../../utilities/MSALConfig.js";
@@ -9,12 +9,12 @@ import Requests from "../../../../utilities/Requests.js";
 
 const NoteModal = ({item, isShown, setIsShown, msalClient}) => {
     const [isLoading, setIsLoading] = useState(false)
-    const authorNote = item.notes.find(x => x.isAuthor === true)
+    const authorNote = item.notes.find(x => x.isAuthor)
     const currentNotes = item.notes.filter(x => x !== authorNote)
     return (
         <Modal show={isShown} onHide={() => setIsShown(false)} size="lg">
             <Form onSubmit={(event) => createNote(item, event, msalClient, setIsShown, setIsLoading)}>
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title as="h4">Нотатки ({item.discipline})</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -74,7 +74,7 @@ const NoteModal = ({item, isShown, setIsShown, msalClient}) => {
 const createNote = async (item, event, msal, setIsShown, setIsLoading) => {
     event.preventDefault();
     event.stopPropagation();
-    const message = event.target[1].value;
+    const message = event.target[0].value;
     if (!message.length) {
         return;
     }

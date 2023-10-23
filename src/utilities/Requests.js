@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export default class Requests {
-    static API_URL = 'https://localhost:4308/api'
+    static API_URL = 'https://smart-timetable-app-2e1b4711270e.herokuapp.com/api'
     static async getPersonalSchedule(startDate, endDate, studyGroup, outageGroup, accessToken) {
-        const requestUrl = `${this.API_URL}/schedule/me`
+        const requestUrl = `${this.API_URL}/schedule/personal`
         const requestConfig = {
             params: {
                 'startDate': startDate,
@@ -19,7 +19,7 @@ export default class Requests {
     }
 
     static async getSchedule(startDate, endDate, studyGroup, outageGroup) {
-        const requestUrl = `${this.API_URL}/schedule`
+        const requestUrl = `${this.API_URL}/schedule/guest`
         const requestConfig = {
             params: {
                 'startDate': startDate,

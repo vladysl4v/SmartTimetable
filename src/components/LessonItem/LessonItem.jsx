@@ -6,7 +6,7 @@ import styles from './LessonItem.module.css';
 
 const LessonItem = ({item, isMobile, showOutages, msalClient}) => {
     const expand = (e) => {
-        if (!isMobile && item.notes === undefined) {
+        if (!isMobile && item.notes === null) {
             return;
         }
         if (!e.target.className.includes('outage')) {

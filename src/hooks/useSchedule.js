@@ -29,7 +29,7 @@ const loadSchedule = async (accounts, date, cookies, instance, setLoading, setSc
     }
     if (response.status === 200) {
         response.data.schedule.forEach(item => {
-            item.notes.forEach(note => {
+            item.notes?.forEach(note => {
                 note.creationDate = new Date(note.creationDate)
                 note.creationDate.setTime(note.creationDate.getTime() + note.creationDate.getTimezoneOffset() * 60000)
             })
