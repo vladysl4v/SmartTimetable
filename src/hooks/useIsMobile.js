@@ -1,12 +1,20 @@
-import {useWindowSize} from "@uidotdev/usehooks";
-import {useEffect, useState} from "react";
+import {useLayoutEffect, useState} from "react";
 
-const useIsMobile = () => {
-    const size = useWindowSize()
-    const [isMobile, setIsMobile] = useState(size.width <= 768)
-    useEffect(() => setIsMobile(size.width <= 768), [size]);
+export function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(false)
+
+    useLayoutEffect(() => {
+        const handleResize = () => {
+            setIsMobile( window.innerWidth <= 768);
+        };
+
+        handleResize();
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     return isMobile;
 }
-
-export default useIsMobile;

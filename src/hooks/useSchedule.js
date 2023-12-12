@@ -1,31 +1,30 @@
 import {useEffect, useState} from 'react';
-import {useCookies} from "react-cookie";
-import Requests from "../utilities/Requests.js";
-import {MSALScopes} from "../utilities/MSALConfig.js";
+import {getPersonalSchedule, getSchedule} from "../utils/Requests.js";
+import {MSALScopes} from "../utils/MSALConfig.js";
+import {useLocalStorage} from "./useLocalStorage.js";
 
-const useSchedule = (msalClient) => {
-    const { instance, accounts } = msalClient;
-    const [cookies] = useCookies(['studyGroup', 'outageGroup'])
+export const useSchedule = (instance, accounts) => {
+    const [localStorage] = useLocalStorage()
     const [date, setDate] = useState(new Date())
-    const [loading, setLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [schedule, setSchedule] = useState([])
 
-    useEffect(() => { loadSchedule(accounts, date, cookies, instance, setLoading, setSchedule) }, [date])
+    useEffect(() => { loadSchedule(accounts, date, localStorage, instance, setIsLoading, setSchedule) }, [date])
 
-    return [schedule, loading, date, setDate]
+    return [schedule, isLoading, date, setDate]
 };
 
-const loadSchedule = async (accounts, date, cookies, instance, setLoading, setSchedule) => {
-    if (!cookies.studyGroup) {
+const loadSchedule = async (accounts, date, localStorage, instance, setLoading, setSchedule) => {
+    if (!localStorage.studyGroup) {
         return;
     }
-    const datetime = date.toISOString().slice(0, 19)
+
     setLoading(true)
     let response;
     if (accounts.length) {
-        response = await getPersonalSchedule(instance, accounts, datetime, cookies)
+        response = await getPersonalizedSchedule(instance, accounts, date, localStorage)
     } else {
-        response = await getAnonymousSchedule(datetime, cookies)
+        response = await getAnonymousSchedule(date, localStorage)
     }
     if (response.status === 200) {
         response.data.schedule.forEach(item => {
@@ -39,11 +38,11 @@ const loadSchedule = async (accounts, date, cookies, instance, setLoading, setSc
     setLoading(false)
 }
 
-const getAnonymousSchedule = async (datetime, cookies) => {
-    return await Requests.getSchedule(datetime, datetime, cookies.studyGroup, cookies.outageGroup)
+const getAnonymousSchedule = async (datetime, localStorage) => {
+    return await getSchedule(datetime, localStorage.studyGroup, localStorage.outageGroup)
 }
 
-const getPersonalSchedule = async (instance, accounts, datetime, cookies) => {
+const getPersonalizedSchedule = async (instance, accounts, datetime, localStorage) => {
     let authentication;
     try {
         authentication = await instance.acquireTokenSilent({
@@ -52,9 +51,7 @@ const getPersonalSchedule = async (instance, accounts, datetime, cookies) => {
         });
     } catch (ex) {
         console.error(ex)
-        return await getAnonymousSchedule(datetime, cookies)
+        return await getAnonymousSchedule(datetime, localStorage)
     }
-    return await Requests.getPersonalSchedule(datetime, datetime, cookies.studyGroup, cookies.outageGroup, authentication.accessToken)
+    return await getPersonalSchedule(datetime, localStorage.studyGroup, localStorage.outageGroup, authentication.accessToken)
 }
-
-export default useSchedule;

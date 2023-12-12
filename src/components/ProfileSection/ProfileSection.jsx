@@ -1,19 +1,20 @@
-import React from 'react';
-import {AuthenticatedTemplate, UnauthenticatedTemplate, useMsal} from "@azure/msal-react";
-import LoginButton from "../LoginButton/LoginButton.jsx";
-
-import styles from './ProfileSection.module.css'
-import microsoftImage from '/media/microsoft-account.svg';
-import {MSALScopes} from "../../utilities/MSALConfig.js";
-const ProfileSection = () => {
-    const { instance, inProgress } = useMsal();
+import {AuthenticatedTemplate, UnauthenticatedTemplate} from "@azure/msal-react";
+import microsoftImage from '../../assets/microsoft-account.svg';
+import {MSALScopes} from "../../utils/MSALConfig.js";
+import './ProfileSection.css';
+const ProfileSection = ({instance, inProgress}) => {
     return (
         <>
             <UnauthenticatedTemplate>
                 <div>
-                    <img className={styles.accountImage} src={microsoftImage} alt="Microsoft Account"/>
+                    <img className="img-microsoft" src={microsoftImage} alt="Microsoft Account"/>
                 </div>
-                <LoginButton text=" Увійти за допомогою Microsoft" loginStatus={inProgress} onclick={() => authorizePopup(instance)}/>
+                <button className="btn btn-outline-primary" onClick={() => authorizePopup(instance)}>
+                    {(inProgress === "login" || inProgress === "logout")
+                        ? <><i className="fa-solid fa-spinner fa-spin fa-xl clr-microsoft"></i> Вхід...</>
+                        : <><i className="fa-brands fa-microsoft fa-xl clr-microsoft"></i>{" Увійти за допомогою Microsoft"}</>
+                    }
+                </button>
                 <p className="p-2">Увійдіть до свого аккаунту для доступу до персональних функцій</p>
             </UnauthenticatedTemplate>
 
@@ -22,8 +23,12 @@ const ProfileSection = () => {
                     <p>Персональні налаштування розкладу</p>
                     <em className="text-decoration-underline">Ви авторизовані до аккаунту Microsoft</em>
                 </div>
-                <LoginButton text=" Вийти з аккаунту" loginStatus={inProgress} onclick={() => logoutPopup(instance)}/>
-                <hr style={{marginTop: "20px"}}/>
+                <button className="btn btn-outline-primary" onClick={() => logoutPopup(instance)}>
+                    {(inProgress === "login" || inProgress === "logout")
+                        ? <><i className="fa-solid fa-spinner fa-spin fa-xl clr-microsoft"></i> Вхід...</>
+                        : <><i className="fa-brands fa-microsoft fa-xl clr-microsoft"></i>{" Вийти з аккаунту"}</>
+                    }
+                </button> 
             </AuthenticatedTemplate>
         </>
     );
