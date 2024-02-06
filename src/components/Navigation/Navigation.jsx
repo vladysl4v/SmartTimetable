@@ -8,7 +8,7 @@ export const Navigation = () => {
   return (
     <Navbar expand="lg" className="nav-header" data-bs-theme="dark">
         <Container fluid>
-            <Navbar.Brand href="">
+            <Navbar.Brand href="#">
                 <img className="brand-logo" src={logo} alt="Brand logo" />
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />

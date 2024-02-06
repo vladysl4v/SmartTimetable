@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import ReactDOM from 'react-dom/client'
 import StudentSchedule from "./pages/StudentSchedule/StudentSchedule.jsx";
-import {HashRouter, Route, Routes} from "react-router-dom";
+import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Navigation} from "./components/Navigation/Navigation.jsx";
 import {PublicClientApplication} from "@azure/msal-browser";
 import {MSALConfig} from "./utils/MSALConfig.js";
@@ -18,6 +18,7 @@ const AppRouter = () => {
         <HashRouter>
             <Navigation/>
             <Routes>
+                <Route path="/" element={<Navigate to='/student-schedule' /> } />
                 <Route path="/student-schedule" element={ <StudentSchedule /> } />
                 <Route path="/teacher-schedule" element={ <TeacherSchedule /> } />
                 <Route path="/settings" element={ <Settings /> } />

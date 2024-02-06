@@ -17,7 +17,7 @@ export const ScheduleTable = ({isMobile, preferences, schedule, selectLesson, ty
               ) : (
                   <>
                       {
-                          (!preferences.outageGroup?.value.length)
+                          (!preferences.outageGroup?.value?.length)
                               ? <th>Світло</th> 
                               : null
                       }

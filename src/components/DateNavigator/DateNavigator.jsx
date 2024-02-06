@@ -23,7 +23,7 @@ export const DateNavigator = ({currentDate, setCurrentDate, identifier, type}) =
             Вперед <i className="fa-solid fa-caret-right"></i>
           </CalendarButton>
           <CalendarButton description='Розклад на обраний день' variant='outline-light' action={(args) => setCurrentDate(args.target.valueAsDate)} type='date'/>
-            <CalendarButton description={'Зміна ' + (type === 'teacher') ? 'викладача' : 'навчальної групи'} variant='outline-light' action={() => navigate('/settings')}>
+            <CalendarButton description={'Зміна ' + ((type === 'teacher') ? 'викладача' : 'навчальної групи')} variant='outline-light' action={() => navigate('/settings')}>
                 {generateGroupOrTeacher(identifier, type)} <i className="fa-solid fa-cog"></i>
             </CalendarButton>
         </div>
