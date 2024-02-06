@@ -20,7 +20,6 @@ const ProfileSection = ({instance, inProgress}) => {
 
             <AuthenticatedTemplate>
                 <div style={{marginBottom: "12px"}}>
-                    <p>Персональні налаштування розкладу</p>
                     <em className="text-decoration-underline">Ви авторизовані до аккаунту Microsoft</em>
                 </div>
                 <button className="btn btn-outline-primary" onClick={() => logoutPopup(instance)}>

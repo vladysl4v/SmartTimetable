@@ -5,7 +5,7 @@ import {LessonsInformation} from "../LessonsInformation/LessonsInformation.jsx";
 import {NotesInformation} from "../NotesInformation/NotesInformation.jsx";
 import {MeetingsInformation} from "../MeetingsInformation/MeetingsInformation.jsx";
 
-export const ScheduleModal = ({item, close, msalClient}) => {
+export const ScheduleModal = ({item, close, msalClient, activeAccount, type}) => {
     const [modalMode, setModalMode] = useState('lesson')
     if (item === null) {
         return null;
@@ -18,9 +18,9 @@ export const ScheduleModal = ({item, close, msalClient}) => {
             <Modal.Body className='w-100 d-block'>
                 {
                     (modalMode === 'lesson') ?
-                        <LessonsInformation changeModalMode={setModalMode} item={item}/>
+                        <LessonsInformation changeModalMode={setModalMode} item={item} type={type}/>
                     : (modalMode === 'notes') ?
-                        <NotesInformation item={item} close={()=> setModalMode('lesson')} msalClient={msalClient} goBack={() => setModalMode('lesson')}/>
+                        <NotesInformation item={item} close={()=> setModalMode('lesson')} msalClient={msalClient} activeAccount={activeAccount} goBack={() => setModalMode('lesson')}/>
                     : (modalMode === 'meetings') ?
                         <MeetingsInformation item={item}/>
                     : null

@@ -3,11 +3,12 @@ import {deleteNote, postNote} from "../../utils/Requests.js";
 import {MSALScopes} from "../../utils/MSALConfig.js";
 import {Hint} from "../../layout/Hint/Hint.jsx";
 
-export const NotesInformation = ({item, msalClient, goBack}) => {
+export const NotesInformation = ({item, msalClient, goBack, activeAccount}) => {
   if (item === null) {
     return null;
   }
-  const authorNote = item.notes.find(x => x.authorId === msalClient.getActiveAccount().localAccountId)
+
+  const authorNote = item.notes.find(x => x.authorId === activeAccount.localAccountId)
   const currentNotes = item.notes.filter(x => x !== authorNote)
     return (
         <>
@@ -19,7 +20,7 @@ export const NotesInformation = ({item, msalClient, goBack}) => {
                 (currentNotes.map(note =>
                     <div key={note.noteId} className="card mt-2 p-2">
                       <p className="fw-bold">
-                        Нотатка від {note.authorName}
+                        Нотатка від {shortenName(note.authorName)}
                         <span
                             className="fw-light float-end">{note.creationDate.toLocaleDateString()} {note.creationDate.toLocaleTimeString()}</span>
                       </p>
@@ -37,12 +38,12 @@ export const NotesInformation = ({item, msalClient, goBack}) => {
                         <span className="fw-light float-end">{authorNote.creationDate.toLocaleDateString()} {authorNote.creationDate.toLocaleTimeString()}</span>
                       </p>
                       <p className="fst-italic ms-3">{authorNote.message}</p>
-                      <Button className="mt-2" variant="outline-danger" onClick={() => removeNote(item, authorNote.noteId, goBack, msalClient)}>
+                      <Button className="mt-2" variant="outline-danger" onClick={() => removeNote(item, authorNote.noteId, goBack, msalClient, activeAccount)}>
                         Видалити нотатку
                       </Button>
                     </div>
                 ) : (
-                    <Form onSubmit={(event) => createNote(item, event, msalClient, goBack)}>
+                    <Form onSubmit={(event) => createNote(item, event, msalClient, goBack, activeAccount)}>
                       <div className="card border-3 border-light-subtle mt-2 p-2">
                         <p className="fw-bold"><i className="fa-solid fa-circle-plus fa-lg mt-3"/> Створити групову нотатку</p>
                         <Form.Control id='notes' as="textarea" rows="2" maxLength="256"/>
@@ -55,9 +56,21 @@ export const NotesInformation = ({item, msalClient, goBack}) => {
           }
         </>
     )
+} 
+
+const shortenName = (name) => {
+  let abbr = name;
+  if (!abbr?.length) {
+    return abbr;
+  }
+  abbr = abbr.split(" ");
+  if (abbr.length !== 3) {
+    return name;
+  }
+  return `${abbr[0]} ${abbr[1][0]}.${abbr[2][0]}.`;
 }
 
-const createNote = async (item, event, msal, close) => {
+const createNote = async (item, event, msal, close, activeAccount) => {
   event.preventDefault();
   event.stopPropagation();
   const message = event.target[0].value;
@@ -65,7 +78,7 @@ const createNote = async (item, event, msal, close) => {
     return;
   }
 
-  const token = await getAccessToken(msal)
+  const token = await getAccessToken(msal, activeAccount)
 
   if (!token) {
     return;
@@ -81,8 +94,8 @@ const createNote = async (item, event, msal, close) => {
   close()
 }
 
-const removeNote = async (item, noteId, close, msal) => {
-  const token = await getAccessToken(msal)
+const removeNote = async (item, noteId, close, msal, activeAccount) => {
+  const token = await getAccessToken(msal, activeAccount)
   if (!token) {
     return;
   }
@@ -94,10 +107,10 @@ const removeNote = async (item, noteId, close, msal) => {
   close()
 }
 
-const getAccessToken = async (instance) => {
+const getAccessToken = async (instance, activeAccount) => {
   const authentication = await instance.acquireTokenSilent({
     scopes: MSALScopes.scopes,
-    account: instance.getActiveAccount()})
+    account: activeAccount})
 
   return authentication?.accessToken
 }

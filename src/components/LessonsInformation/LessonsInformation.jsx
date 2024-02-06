@@ -1,7 +1,7 @@
 import './LessonsInformation.css'
 import {Button} from "react-bootstrap";
 
-export const LessonsInformation = ({item, changeModalMode}) => {
+export const LessonsInformation = ({item, changeModalMode, type}) => {
     return (
         <>
         <table className='text-center w-100'>
@@ -34,8 +34,8 @@ export const LessonsInformation = ({item, changeModalMode}) => {
             <td>{item.cabinet}</td>
           </tr>
           <tr>
-            <td className="fw-bold">Викладач</td>
-            <td>{item.teacher}</td>
+            <td className="fw-bold">{(type === 'student') ? 'Викладач' : 'Група'}</td>
+            <td>{(type === 'student') ? item.teacher : item.studyGroup}</td>
           </tr>
           {
             (item.subgroup?.length) ?
@@ -50,7 +50,7 @@ export const LessonsInformation = ({item, changeModalMode}) => {
             {
                 (item.notes != null) ?
                 <Button variant='outline-info fw-bold w-100 d-block table-row-cosplay' onClick={() => changeModalMode('notes')}>
-                    Нотатки ({item.notes.length})
+                    Групові нотатки ({item.notes.length})
                     <i className="fa-solid fa-hand-pointer fa-lg ms-2"></i>
                 </Button>
                 : null

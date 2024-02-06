@@ -3,13 +3,13 @@ import {getFormattedDate} from "./DateUtilities.js";
 
 const API_URL = 'https://smart-timetable-app-2e1b4711270e.herokuapp.com/api'
 
-export const getPersonalSchedule = async (date, studyGroup, outageGroup, accessToken) => {
-    const requestUrl = `${API_URL}/schedule/personal`
+export const getStudentPersonalSchedule = async (date, studyGroup, outageGroup, accessToken) => {
+    const requestUrl = `${API_URL}/student/schedule/personalized`
     const requestConfig = {
         params: {
             'date': getFormattedDate(date),
             'studyGroup': studyGroup,
-            'outageGroup': outageGroup
+            'outageGroup': (!outageGroup?.length) ? null : outageGroup
         },
         headers: {
             'Authorization': `BEARER ${accessToken}`
@@ -18,28 +18,87 @@ export const getPersonalSchedule = async (date, studyGroup, outageGroup, accessT
     return await axios.get(requestUrl, requestConfig)
 }
 
-export const getSchedule = async (date, studyGroup, outageGroup) => {
-    const requestUrl = `${API_URL}/schedule/guest`
+export const getTeacherPersonalSchedule = async (date, teacherId, outageGroup, accessToken) => {
+    const requestUrl = `${API_URL}/teacher/schedule/personalized`
+    const requestConfig = {
+        params: {
+            'date': getFormattedDate(date),
+            'teacherId': teacherId,
+            'outageGroup': (!outageGroup?.length) ? null : outageGroup
+        },
+        headers: {
+            'Authorization': `BEARER ${accessToken}`
+        }
+    }
+    return await axios.get(requestUrl, requestConfig)
+}
+
+export const getStudentGuestSchedule = async (date, studyGroup, outageGroup) => {
+    const requestUrl = `${API_URL}/student/schedule`
     const requestConfig = {
         params: {
             'date': getFormattedDate(date),
             'studyGroup': studyGroup,
-            'outageGroup': outageGroup
+            'outageGroup': (!outageGroup?.length) ? null : outageGroup
         }
     };
     return await axios.get(requestUrl, requestConfig)
 }
 
-export const getFilters = async () => {
-    const requestUrl = `${API_URL}/settings/filters`
+export const getTeacherGuestSchedule = async (date, teacherId, outageGroup) => {
+    const requestUrl = `${API_URL}/teacher/schedule`
+    const requestConfig = {
+        params: {
+            'date': getFormattedDate(date),
+            'teacherId': teacherId,
+            'outageGroup': (!outageGroup?.length) ? null : outageGroup
+        }
+    };
+    return await axios.get(requestUrl, requestConfig)
+}
+
+export const getStudentFilters = async () => {
+    const requestUrl = `${API_URL}/student/filters`
     return await axios.get(requestUrl)
 }
 
-export const getStudyGroups = async (faculty, course, educationForm) => {
+export const getTeacherFaculties = async () => {
+    const requestUrl = `${API_URL}/teacher/faculties`
+    return await axios.get(requestUrl)
+}
+
+export const getTeacherChairs = async (faculty) => {
+    if (!faculty) {
+        return;
+    }
+    const requestUrl = `${API_URL}/teacher/chairs`
+    const requestConfig = {
+        params: {
+            'faculty': faculty
+        }
+    };
+    return await axios.get(requestUrl, requestConfig)
+}
+
+export const getTeacherEmployees = async (faculty, chair) => {
+    if (!faculty || !chair) {
+        return;
+    }
+    const requestUrl = `${API_URL}/teacher/employees`
+    const requestConfig = {
+        params: {
+            'faculty': faculty,
+            'chair': chair
+        }
+    };
+    return await axios.get(requestUrl, requestConfig)
+}
+
+export const getStudentStudyGroups = async (faculty, course, educationForm) => {
     if (!faculty || !educationForm || !course) {
         return;
     }
-    const requestUrl = `${API_URL}/settings/studyGroups`
+    const requestUrl = `${API_URL}/student/studyGroups`
     const requestConfig = {
         params: {
             'faculty': faculty,
@@ -62,6 +121,11 @@ export const postNote = async (lessonId, message, accessToken) => {
         "lessonId": lessonId,
         "message": message
     }, requestConfig)
+}
+
+export const getOutages = async () => {
+    const requestUrl = `${API_URL}/settings/outageGroups`
+    return await axios.get(requestUrl)
 }
 
 export const deleteNote = async (noteId, accessToken) => {
