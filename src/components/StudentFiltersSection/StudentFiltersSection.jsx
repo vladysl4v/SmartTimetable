@@ -29,7 +29,7 @@ const loadFilters = async (localStorage, setFilters) => {
     if (filtersResponse.status !== 200) {
         return
     }
-    const filters = filtersResponse.data.filters
+    const filters = filtersResponse.data
     filters.studyGroups = groupsResponse?.data.filters
 
     setFilters(filters)
