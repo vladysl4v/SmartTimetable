@@ -1,6 +1,6 @@
 export const MSALConfig  = {
     auth: {
-        clientId: "aabcccce-2050-4325-8963-593f5441a728",
+        clientId: "5158098e-5e6a-429e-b237-0279cb105419",
         authority: "https://login.microsoftonline.com/cf94ad9d-2983-43f5-9909-722602ea2165",
         redirectUri: `${window.location.origin}`,
         clientCapabilities: ['CP1'],
@@ -12,5 +12,5 @@ export const MSALConfig  = {
 }
 
 export const MSALScopes = {
-    scopes: ["api://6fee3e9d-c90a-44ee-b784-9d0c463a4952/.default"]
+    scopes: ["api://0dc03e47-7df4-49dc-98be-361558e225eb/.default"]
 }
