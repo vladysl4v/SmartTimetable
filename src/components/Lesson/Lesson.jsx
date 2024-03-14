@@ -1,4 +1,5 @@
 import {OutageStatus} from "../OutageStatus/OutageStatus.jsx";
+import {shortenName} from "../../utils/Formatters.js";
 
 export const Lesson = ({lesson, isMobile, onSelected, preferences, type}) => {
     if (isMobile) {
@@ -25,16 +26,4 @@ export const Lesson = ({lesson, isMobile, onSelected, preferences, type}) => {
             <td>{(type === 'student') ? shortenName(lesson.teacher) : lesson.studyGroup}</td>
         </tr>
     )
-}
-
-const shortenName = (name) => {
-    let abbr = name;
-    if (!abbr?.length) {
-        return abbr;
-    }
-    abbr = abbr.split(" ");
-    if (abbr.length !== 3) {
-        return name;
-    }
-    return `${abbr[0]} ${abbr[1][0]}.${abbr[2][0]}.`;
 }

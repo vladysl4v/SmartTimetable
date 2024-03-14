@@ -1,6 +1,6 @@
 import './DateNavigator.css'
 import {CalendarButton} from "../CalendarButton/CalendarButton.jsx";
-import {shortDate, getNextDay, getPreviousDay, getDayOfWeek} from "../../utils/DateUtilities.js";
+import {shortDate, getNextDay, getPreviousDay, getDayOfWeek} from "../../utils/Formatters.js";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 

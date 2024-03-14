@@ -1,4 +1,4 @@
-import {getAccusativeDayOfWeek, shortDate} from "../../utils/DateUtilities.js";
+import {getAccusativeDayOfWeek, shortDate} from "../../utils/Formatters.js";
 import {MainContainer} from "../../layout/MainContainer/MainContainer.jsx";
 import {DateNavigator} from "../../components/DateNavigator/DateNavigator.jsx";
 import {ScheduleModal} from "../../components/ScheduleModal/ScheduleModal.jsx";

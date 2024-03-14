@@ -23,3 +23,15 @@ export const getAccusativeDayOfWeek = (date) => {
     const daysOfWeek = ['неділю', 'понеділок', 'вівторок', 'середу', 'четвер', "п'ятницю", 'суботу'];
     return daysOfWeek[date.getDay()];
 }
+
+export const shortenName = (name) => {
+    let abbr = name;
+    if (!abbr?.length) {
+        return abbr;
+    }
+    abbr = abbr.split(" ");
+    if (abbr.length !== 3) {
+        return name;
+    }
+    return `${abbr[0]} ${abbr[1][0]}.${abbr[2][0]}.`;
+}

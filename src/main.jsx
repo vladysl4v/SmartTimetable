@@ -7,7 +7,7 @@ import StudentSchedule from "./pages/StudentSchedule/StudentSchedule.jsx";
 import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Navigation} from "./components/Navigation/Navigation.jsx";
 import {PublicClientApplication} from "@azure/msal-browser";
-import {MSALConfig} from "./utils/MSALConfig.js";
+import {MsalConfig} from "../msal.config.js";
 import {MsalProvider} from "@azure/msal-react";
 import {Settings} from "./pages/Settings/Settings.jsx";
 import TeacherSchedule from "./pages/TeacherSchedule/TeacherSchedule.jsx";
@@ -26,7 +26,7 @@ const AppRouter = () => {
         </HashRouter>
     );
 }
-const client = new PublicClientApplication(MSALConfig);
+const client = new PublicClientApplication(MsalConfig);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
         <MsalProvider instance={client}> 

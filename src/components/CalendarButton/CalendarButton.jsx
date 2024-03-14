@@ -1,6 +1,6 @@
 import {Button} from "react-bootstrap";
 import './CalendarButton.css'
-import {getFormattedDate} from "../../utils/DateUtilities.js";
+import {getFormattedDate} from "../../utils/Formatters.js";
 
 export const CalendarButton = ({description, action, children, type = 'btn', variant = 'light'}) => {
     if (type === 'date') return (

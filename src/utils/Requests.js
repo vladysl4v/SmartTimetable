@@ -1,5 +1,6 @@
 import axios from "axios";
-import {getFormattedDate} from "./DateUtilities.js";
+import {getFormattedDate} from "./Formatters.js";
+import {MsalScopes} from "../../msal.config.js";
 
 const API_URL = 'https://smart-timetable-app-2e1b4711270e.herokuapp.com/api'
 
@@ -128,4 +129,12 @@ export const deleteNote = async (noteId, accessToken) => {
         }
     }
     return await axios.delete(requestUrl, requestConfig)
+}
+
+export const getAccessToken = async (instance, activeAccount) => {
+    const authentication = await instance.acquireTokenSilent({
+        scopes: MsalScopes.scopes,
+        account: activeAccount})
+
+    return authentication?.accessToken
 }

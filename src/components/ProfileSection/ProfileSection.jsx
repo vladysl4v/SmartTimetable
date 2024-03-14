@@ -1,6 +1,6 @@
 import {AuthenticatedTemplate, UnauthenticatedTemplate} from "@azure/msal-react";
 import microsoftImage from '../../assets/microsoft-account.svg';
-import {MSALScopes} from "../../utils/MSALConfig.js";
+import {MsalScopes} from "../../../msal.config.js";
 import './ProfileSection.css';
 const ProfileSection = ({instance, inProgress}) => {
     return (
@@ -35,7 +35,7 @@ const ProfileSection = ({instance, inProgress}) => {
 
 const authorizePopup = async (instance) => {
     try {
-        await instance.loginPopup(MSALScopes)
+        await instance.loginPopup(MsalScopes)
     } catch (error) {
         console.error(error)
     }

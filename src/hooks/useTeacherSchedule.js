@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {getTeacherPersonalSchedule, getTeacherGuestSchedule} from "../utils/Requests.js";
-import {MSALScopes} from "../utils/MSALConfig.js";
+import {MsalScopes} from "../../msal.config.js";
 import {useLocalStorage} from "./useLocalStorage.js";
 
 export const useTeacherSchedule = (instance, accounts) => {
@@ -40,7 +40,7 @@ const getPersonalizedSchedule = async (instance, accounts, datetime, localStorag
     let authentication;
     try {
         authentication = await instance.acquireTokenSilent({
-            scopes: MSALScopes.scopes,
+            scopes: MsalScopes.scopes,
             account: accounts[0],
         });
     } catch (ex) {

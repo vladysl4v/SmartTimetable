@@ -1,7 +1,7 @@
 import {Button, Form} from "react-bootstrap";
-import {deleteNote, postNote} from "../../utils/Requests.js";
-import {MSALScopes} from "../../utils/MSALConfig.js";
+import {deleteNote, postNote, getAccessToken} from "../../utils/Requests.js";
 import {Hint} from "../../layout/Hint/Hint.jsx";
+import {shortenName} from "../../utils/Formatters.js";
 
 export const NotesInformation = ({item, msalClient, goBack, activeAccount}) => {
   if (item === null) {
@@ -56,18 +56,6 @@ export const NotesInformation = ({item, msalClient, goBack, activeAccount}) => {
           }
         </>
     )
-} 
-
-const shortenName = (name) => {
-  let abbr = name;
-  if (!abbr?.length) {
-    return abbr;
-  }
-  abbr = abbr.split(" ");
-  if (abbr.length !== 3) {
-    return name;
-  }
-  return `${abbr[0]} ${abbr[1][0]}.${abbr[2][0]}.`;
 }
 
 const createNote = async (item, event, msal, close, activeAccount) => {
@@ -105,12 +93,4 @@ const removeNote = async (item, noteId, close, msal, activeAccount) => {
   }
   item.notes = item.notes.filter(x => x.noteId !== noteId)
   close()
-}
-
-const getAccessToken = async (instance, activeAccount) => {
-  const authentication = await instance.acquireTokenSilent({
-    scopes: MSALScopes.scopes,
-    account: activeAccount})
-
-  return authentication?.accessToken
 }
