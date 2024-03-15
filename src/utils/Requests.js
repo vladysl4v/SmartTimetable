@@ -132,9 +132,17 @@ export const deleteNote = async (noteId, accessToken) => {
 }
 
 export const getAccessToken = async (instance, activeAccount) => {
-    const authentication = await instance.acquireTokenSilent({
+    const tokenRequest = {
         scopes: MsalScopes.scopes,
-        account: activeAccount})
+        account: activeAccount
+    }
+    let authentication;
+    try {
+        authentication = await instance.acquireTokenSilent(tokenRequest)
+    } catch (ex) {
+        console.warn(ex)
+        authentication = await instance.acquireTokenPopup(tokenRequest)
+    }
 
     return authentication?.accessToken
 }
