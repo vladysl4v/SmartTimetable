@@ -14,8 +14,8 @@ export const Navigation = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="justify-content-end flex-grow-1 pe-3 gap-3">
-                    <Nav.Link as={NavLink} to="/student-schedule"><i className="fa-regular fa-calendar-days"></i> Розклад студента</Nav.Link>
-                    <Nav.Link as={NavLink} to="/teacher-schedule"><i className="fa-regular fa-calendar-days"></i> Розклад викладача</Nav.Link>
+                    <Nav.Link as={NavLink} to="/student-schedule"><i className="fa-solid fa-user-graduate"></i> Розклад студента</Nav.Link>
+                    <Nav.Link as={NavLink} to="/teacher-schedule"><i className="fa-solid fa-user-tie"></i> Розклад викладача</Nav.Link>
                     <Nav.Link as={NavLink} to="/settings"><i className="fa-solid fa-gear"></i> Налаштування</Nav.Link>
                 </Nav>
             </Navbar.Collapse>

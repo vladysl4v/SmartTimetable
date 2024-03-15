@@ -24,7 +24,7 @@ const Schedule = ({type}) => {
             <GroupConfigurator scheduleMode={scheduleMode} backToSchedule={() => setScheduleMode('schedule')} type={type} configuration={config}/>
             <MainContainer>
                 <h3 className='text-center text-light mb-4'>
-                    Розклад {type === 'student' ? 'занять' : 'викладача'} на {getAccusativeDayOfWeek(date)} {shortDate(date)}
+                    {type === 'student' ? <i className="fas fa-user-graduate"></i> : <i className="fa fa-user-tie"></i>} Розклад {type === 'student' ? 'занять' : 'викладача'} на {getAccusativeDayOfWeek(date)} {shortDate(date)}
                     {(isLoading) ? <Spinner animation='border' variant="light" className='position-absolute ms-2 mt-2' size='sm'/> : null}
                 </h3>
                 <ScheduleTable schedule={schedule} selectLesson={selectLesson} configuration={config} type={type} configureGroup={() => setScheduleMode('settings')}/>
