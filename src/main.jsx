@@ -10,6 +10,7 @@ import {MsalConfig} from "../msal.config.js";
 import {MsalProvider} from "@azure/msal-react";
 import {Settings} from "./pages/Settings/Settings.jsx";
 import Schedule from "./pages/Schedule/Schedule.jsx";
+import {Footer} from "./components/Footer/Footer.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const AppRouter = () => {
@@ -22,6 +23,7 @@ const AppRouter = () => {
                 <Route path="/teacher-schedule" element={ <Schedule type='teacher' /> } />
                 <Route path="/settings" element={ <Settings /> } />
             </Routes>
+            <Footer />
         </HashRouter>
     );
 }

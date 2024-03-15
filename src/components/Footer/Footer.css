@@ -1,0 +1,14 @@
+.footer {
+    font-family: Consolas, monospace;
+    font-size: 14px;
+}
+
+.link {
+    color: #363945 !important;
+    text-decoration: none;
+}
+
+.link:hover {
+    color: #6e748a !important;
+    text-decoration: none;
+}
