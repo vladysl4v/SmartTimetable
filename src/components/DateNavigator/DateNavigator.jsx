@@ -2,11 +2,9 @@ import './DateNavigator.css'
 import {CalendarButton} from "../CalendarButton/CalendarButton.jsx";
 import {shortDate, getNextDay, getPreviousDay, getDayOfWeek} from "../../utils/Formatters.js";
 import {useState} from "react";
-import {useNavigate} from "react-router-dom";
 
-export const DateNavigator = ({currentDate, setCurrentDate, identifier, type}) => {
+export const DateNavigator = ({currentDate, setCurrentDate, identifier, type, configureGroup}) => {
     const [actualDate] = useState(new Date())
-    const navigate = useNavigate();
 
     return (
         <div className="d-flex justify-content-center gap-3 flex-wrap align-items-center local-container">
@@ -23,7 +21,7 @@ export const DateNavigator = ({currentDate, setCurrentDate, identifier, type}) =
             Вперед <i className="fa-solid fa-caret-right"></i>
           </CalendarButton>
           <CalendarButton description='Розклад на обраний день' variant='outline-light' action={(args) => setCurrentDate(args.target.valueAsDate)} type='date'/>
-            <CalendarButton description={'Зміна ' + ((type === 'teacher') ? 'викладача' : 'навчальної групи')} variant='outline-light' action={() => navigate('/settings')}>
+            <CalendarButton description={'Зміна ' + ((type === 'teacher') ? 'викладача' : 'навчальної групи')} variant='outline-light' action={() => configureGroup()}>
                 {generateGroupOrTeacher(identifier, type)} <i className="fa-solid fa-cog"></i>
             </CalendarButton>
         </div>

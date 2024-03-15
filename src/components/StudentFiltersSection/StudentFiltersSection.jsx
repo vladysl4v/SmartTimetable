@@ -7,7 +7,7 @@ export const StudentFiltersSection = ({defaultValues, setValue}) => {
     useEffect(() => { loadFilters(defaultValues, setFiltersData) }, [])
     useEffect(() => { refreshStudyGroups(defaultValues, setFiltersData, filtersData) }, [defaultValues])
     return (
-        <>
+        <div>
             <p>Налаштування навчальної групи студента</p>
             <div className="row justify-content-center sections mb-1">
                 <FilterSelector title="Оберіть факультет" data={filtersData.faculties} selectedValue={defaultValues.faculty?.key} onChanged={setFilterValue('faculty', setValue, filtersData.faculties)}/>
@@ -15,7 +15,7 @@ export const StudentFiltersSection = ({defaultValues, setValue}) => {
                 <FilterSelector title="Оберіть курс" data={filtersData.courses} selectedValue={defaultValues.course?.key} onChanged={setFilterValue('course', setValue, filtersData.courses)} style={{width:'50%'}}/>
                 <FilterSelector title="Оберіть навчальну групу" data={filtersData.studyGroups} selectedValue={defaultValues.studyGroup?.key} onChanged={setFilterValue('studyGroup', setValue, filtersData.studyGroups)}/>
             </div>
-        </>
+        </div>
     );
 };
 

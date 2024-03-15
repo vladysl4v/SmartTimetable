@@ -1,6 +1,6 @@
 import {Table} from "react-bootstrap";
-import {Link} from "react-router-dom";
 import {Lesson} from "../Lesson/Lesson.jsx";
+import Button from "react-bootstrap/Button";
 
 export const ScheduleTable = ({configuration, schedule, selectLesson, type, configureGroup}) => {
     return (
@@ -34,17 +34,15 @@ export const ScheduleTable = ({configuration, schedule, selectLesson, type, conf
           <tbody className="table-group-divider">
           {
               (() => {
-                  if ((type === 'student' && !preferences.studyGroup) || (type === 'teacher' && !preferences.teacherId)) {
+                  if ((type === 'student' && !configuration.localStorage.studyGroup?.key) ||
+                      (type === 'teacher' && !configuration.localStorage.teacherId?.key)) {
                       return (
                           <tr>
                             <td colSpan="20">
                               <em>
-                              {
-                                  (type === 'student') 
-                                      ? "У Вас не налаштована навчальна група." 
-                                      : "У Вас не налаштован викладач."}
-                              <br/>
-                                <Link to="/settings">Перейти до налаштувань</Link>
+                                  У Вас не{type === 'student' ? ' налаштовано групу.' : ' налаштован викладач.'}
+                                  <br/>
+                                  <Button variant="outline-light" className='my-3' onClick={configureGroup}>Налаштувати</Button>
                               </em>
                             </td>
                           </tr>

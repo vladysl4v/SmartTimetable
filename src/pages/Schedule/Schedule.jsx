@@ -21,6 +21,7 @@ const Schedule = ({type}) => {
     return (
         <>
             <DateNavigator currentDate={date} setCurrentDate={setDate} identifier={identifier} type={type} configureGroup={() => setScheduleMode('settings')}/>
+            <GroupConfigurator scheduleMode={scheduleMode} backToSchedule={() => setScheduleMode('schedule')} type={type} configuration={config}/>
             <MainContainer>
                 <h3 className='text-center text-light mb-4'>
                     Розклад {type === 'student' ? 'занять' : 'викладача'} на {getAccusativeDayOfWeek(date)} {shortDate(date)}
