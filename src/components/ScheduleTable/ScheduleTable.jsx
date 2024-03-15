@@ -2,13 +2,13 @@ import {Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {Lesson} from "../Lesson/Lesson.jsx";
 
-export const ScheduleTable = ({isMobile, preferences, schedule, selectLesson, type}) => {
+export const ScheduleTable = ({configuration, schedule, selectLesson, type, configureGroup}) => {
     return (
         <Table striped variant="dark" className='text-center align-middle' responsive>
           <thead>
           <tr>
             {
-              (isMobile) ? (
+              (configuration.isMobile) ? (
                   <>
                     <th>Час</th>
                     <th>Дисципліна</th>
@@ -17,7 +17,7 @@ export const ScheduleTable = ({isMobile, preferences, schedule, selectLesson, ty
               ) : (
                   <>
                       {
-                          (preferences.outageGroup?.value?.length)
+                          (configuration.isOutagesAllowed())
                               ? <th>Світло</th> 
                               : null
                       }
@@ -58,8 +58,8 @@ export const ScheduleTable = ({isMobile, preferences, schedule, selectLesson, ty
                   }
                   else {
                       return schedule.map(
-                          (lesson) => 
-                              <Lesson key={lesson.id} lesson={lesson} isMobile={isMobile} onSelected={() => selectLesson(lesson)} preferences={preferences} type={type}/>
+                          (lesson, index) => 
+                              <Lesson key={`${lesson.id}${index}`} lesson={lesson} configuration={configuration} onSelected={() => selectLesson(lesson)} type={type}/>
                       )
                   }
               })()

@@ -34,7 +34,7 @@ export const getStudentGuestSchedule = async (date, studyGroup, outageGroup) => 
     const requestUrl = `${API_URL}/students/schedules/${studyGroup}/${getFormattedDate(date)}`
     const requestConfig = {
         params: {
-            'outageGroup': (!outageGroup?.length) ? null : outageGroup
+            'outageGroup': (!outageGroup?.length || outageGroup === '0') ? null : outageGroup
         }
     };
     return await axios.get(requestUrl, requestConfig)
@@ -44,7 +44,7 @@ export const getTeacherGuestSchedule = async (date, teacherId, outageGroup) => {
     const requestUrl = `${API_URL}/teachers/schedules/${teacherId}/${getFormattedDate(date)}`
     const requestConfig = {
         params: {
-            'outageGroup': (!outageGroup?.length) ? null : outageGroup
+            'outageGroup': (!outageGroup?.length || outageGroup === '0') ? null : outageGroup
         }
     };
     return await axios.get(requestUrl, requestConfig)
@@ -117,7 +117,7 @@ export const postNote = async (lessonId, message, accessToken) => {
 }
 
 export const getOutages = async () => {
-    const requestUrl = `${API_URL}/settings/outageGroups`
+    const requestUrl = `${API_URL}/settings/outageGroups/Kyiv`
     return await axios.get(requestUrl)
 }
 
