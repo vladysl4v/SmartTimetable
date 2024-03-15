@@ -1,15 +1,20 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {LessonsInformation} from "../LessonsInformation/LessonsInformation.jsx";
 import {NotesInformation} from "../NotesInformation/NotesInformation.jsx";
 import {MeetingsInformation} from "../MeetingsInformation/MeetingsInformation.jsx";
+import {getAccessToken, getStudentLessonDetails, getTeacherLessonDetails} from "../../utils/Requests.js";
 
-export const ScheduleModal = ({item, close, msalClient, activeAccount, type}) => {
+export const ScheduleModal = ({item, close, type, configuration}) => {
     const [modalMode, setModalMode] = useState('lesson')
+    const [lessonDetails, setLessonDetails] = useState()
+    useEffect(() => { loadLessonDetails(item, setLessonDetails, type, configuration) }, [item])
+    
     if (item === null) {
         return null;
     }
+    
     return (
             <Modal show={item} centered onHide={() => close()}>
             <Modal.Header className='text-center'>
@@ -18,11 +23,11 @@ export const ScheduleModal = ({item, close, msalClient, activeAccount, type}) =>
             <Modal.Body className='w-100 d-block'>
                 {
                     (modalMode === 'lesson') ?
-                        <LessonsInformation changeModalMode={setModalMode} item={item} type={type}/>
+                        <LessonsInformation changeModalMode={setModalMode} item={item} lessonDetails={lessonDetails} type={type} isAuthorized={configuration.isAuthorized()}/>
                     : (modalMode === 'notes') ?
-                        <NotesInformation item={item} close={()=> setModalMode('lesson')} msalClient={msalClient} activeAccount={activeAccount} goBack={() => setModalMode('lesson')}/>
+                        <NotesInformation identifier={item.id} lessonDetails={lessonDetails} close={()=> setModalMode('lesson')} configuration={configuration} goBack={() => setModalMode('lesson')}/>
                     : (modalMode === 'meetings') ?
-                        <MeetingsInformation item={item}/>
+                        <MeetingsInformation lessonDetails={lessonDetails}/>
                     : null
                 }
             </Modal.Body>
@@ -30,7 +35,10 @@ export const ScheduleModal = ({item, close, msalClient, activeAccount, type}) =>
                 <div>
                 {
                     (modalMode === 'lesson') 
-                    ?  <Button variant="secondary" className='w-100' onClick={() => close()}>
+                    ?  <Button variant="secondary" className='w-100' onClick={() => {
+                            close()
+                            setLessonDetails(null)
+                        }}>
                             Закрити
                        </Button>
                     : <Button variant="secondary" className='w-100' onClick={() => setModalMode('lesson')}>
@@ -41,4 +49,26 @@ export const ScheduleModal = ({item, close, msalClient, activeAccount, type}) =>
             </Modal.Footer>
         </Modal>
     )
+}
+
+const loadLessonDetails = async (item, setDetails, type, configuration) => {
+    if (!item || !configuration.isAuthorized()) {
+        return;
+    }
+
+    const accessToken = await getAccessToken(configuration.msalClient, configuration.account)
+    let response;
+    if (type === 'student') {
+        response = await getStudentLessonDetails(item.id, item.date, item.start, item.end, accessToken)
+    } else {
+        response = await getTeacherLessonDetails(item.id, item.date, item.start, item.end, accessToken)
+    }
+    if (response.status === 200) {
+        response.data.notes.forEach(note => {
+                note.creationDate = new Date(note.creationDate)
+        })
+        setDetails(response.data)
+    } else {
+        console.error(response)
+    }
 }

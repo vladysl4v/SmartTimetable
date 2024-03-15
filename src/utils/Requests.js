@@ -4,11 +4,13 @@ import {MsalScopes} from "../../msal.config.js";
 
 const API_URL = 'https://smart-timetable-app-2e1b4711270e.herokuapp.com/api'
 
-export const getStudentPersonalSchedule = async (date, studyGroup, outageGroup, accessToken) => {
-    const requestUrl = `${API_URL}/students/my-schedules/${studyGroup}/${getFormattedDate(date)}`
+export const getStudentLessonDetails = async (id, date, start, end, accessToken) => {
+    const requestUrl = `${API_URL}/students/schedules/details/${id}`
     const requestConfig = {
         params: {
-            'outageGroup': (!outageGroup?.length) ? null : outageGroup
+            'date': date,
+            'startTime': start,
+            'endTime': end
         },
         headers: {
             'Authorization': `BEARER ${accessToken}`
@@ -17,11 +19,13 @@ export const getStudentPersonalSchedule = async (date, studyGroup, outageGroup, 
     return await axios.get(requestUrl, requestConfig)
 }
 
-export const getTeacherPersonalSchedule = async (date, teacherId, outageGroup, accessToken) => {
-    const requestUrl = `${API_URL}/teachers/my-schedules/${teacherId}/${getFormattedDate(date)}`
+export const getTeacherLessonDetails = async (id, date, start, end, accessToken) => {
+    const requestUrl = `${API_URL}/teachers/schedules/details/${id}`
     const requestConfig = {
         params: {
-            'outageGroup': (!outageGroup?.length) ? null : outageGroup
+            'date': date,
+            'startTime': start,
+            'endTime': end
         },
         headers: {
             'Authorization': `BEARER ${accessToken}`
@@ -30,7 +34,7 @@ export const getTeacherPersonalSchedule = async (date, teacherId, outageGroup, a
     return await axios.get(requestUrl, requestConfig)
 }
 
-export const getStudentGuestSchedule = async (date, studyGroup, outageGroup) => {
+export const getStudentSchedule = async (date, studyGroup, outageGroup) => {
     const requestUrl = `${API_URL}/students/schedules/${studyGroup}/${getFormattedDate(date)}`
     const requestConfig = {
         params: {
@@ -40,7 +44,7 @@ export const getStudentGuestSchedule = async (date, studyGroup, outageGroup) => 
     return await axios.get(requestUrl, requestConfig)
 }
 
-export const getTeacherGuestSchedule = async (date, teacherId, outageGroup) => {
+export const getTeacherSchedule = async (date, teacherId, outageGroup) => {
     const requestUrl = `${API_URL}/teachers/schedules/${teacherId}/${getFormattedDate(date)}`
     const requestConfig = {
         params: {

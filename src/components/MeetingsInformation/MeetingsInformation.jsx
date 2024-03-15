@@ -1,6 +1,6 @@
 import {Hint} from "../../layout/Hint/Hint.jsx";
 
-export const MeetingsInformation = ({item}) => {
+export const MeetingsInformation = ({lessonDetails}) => {
     return (
         <>
           <Hint>
@@ -16,8 +16,8 @@ export const MeetingsInformation = ({item}) => {
           </thead>
           <tbody>
           {
-            (item.meetings.length) ?
-                item.meetings.map((meeting, index) =>
+            (lessonDetails.meetings.length) ?
+                lessonDetails.meetings.map((meeting, index) =>
                     <tr key={index}>
                       <td>{meeting.start.slice(0, 5)}-{meeting.end.slice(0, 5)}</td>
                       <td>{meeting.title}</td>

@@ -1,7 +1,13 @@
 import './LessonsInformation.css'
-import {Button} from "react-bootstrap";
+import {Button, Spinner} from "react-bootstrap";
 
-export const LessonsInformation = ({item, changeModalMode, type}) => {
+export const LessonsInformation = ({item, changeModalMode, lessonDetails, type, isAuthorized}) => {
+  const changeIfLoaded = (mode) => {
+    if (lessonDetails != null) {
+      changeModalMode(mode)
+    }
+  }
+  
     return (
         <>
         <table className='text-center w-100'>
@@ -10,17 +16,21 @@ export const LessonsInformation = ({item, changeModalMode, type}) => {
             <td className="fw-bold">Час навчання</td>
             <td>{item.start.slice(0, 5)} - {item.end.slice(0, 5)}</td>
           </tr>
-          <tr>
-            <td className="fw-bold">Світловідключення</td>
-            <td>
-              {
-                item.outages?.map((outage, index) =>
-                    <span key={index}>
+          {
+            (item.outages != null) ?
+            <tr>
+              <td className="fw-bold">Світловідключення</td>
+              <td>
+                {
+                  item.outages?.map((outage, index) =>
+                      <span key={index}>
                         <b>{outage.start.slice(0, 5)}-{outage.end.slice(0, 5)}</b> {(outage.isDefinite ? "Не буде" : "Можливе")}<br/>
                     </span>
-                )}
-            </td>
-          </tr>
+                  )}
+              </td>
+            </tr>
+            : null
+          }
           <tr>
             <td className="fw-bold">Дисципліна</td>
             <td>{item.discipline}</td>
@@ -48,22 +58,21 @@ export const LessonsInformation = ({item, changeModalMode, type}) => {
           </tbody>
         </table>
             {
-                (item.notes != null) ?
-                <Button variant='outline-info fw-bold w-100 d-block table-row-cosplay' onClick={() => changeModalMode('notes')}>
-                    Групові нотатки ({item.notes.length})
+              (isAuthorized) ?
+                <Button variant='outline-info fw-bold w-100 d-block table-row-cosplay' onClick={() => changeIfLoaded('notes')}>
+                    Групові нотатки {lessonDetails != null ? `(${lessonDetails.notes.length})` : <Spinner animation='border' variant="info" size='sm'/>}
                     <i className="fa-solid fa-hand-pointer fa-lg ms-2"></i>
                 </Button>
                 : null
             }
-          {
-            (item.meetings?.length) ?
-                <Button variant='outline-info fw-bold w-100 d-block table-row-cosplay mt-2' onClick={() => changeModalMode('meetings')}>
-                  Онлайн-наради ({item.meetings.length})
+            {
+              (isAuthorized) ?
+                <Button variant='outline-info fw-bold w-100 d-block table-row-cosplay mt-2' onClick={() => changeIfLoaded('meetings')}>
+                  Онлайн-наради {lessonDetails != null ? `(${lessonDetails.meetings.length})` : <Spinner animation='border' variant="info"  size='sm'/>}
                   <i className="fa-solid fa-hand-pointer fa-lg ms-2"></i>
                 </Button>
                 : null
-          }
-
+            }
         </>
     )
 }
