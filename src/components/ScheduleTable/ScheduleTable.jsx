@@ -56,8 +56,8 @@ export const ScheduleTable = ({configuration, schedule, selectLesson, type, conf
                   }
                   else {
                       return schedule.map(
-                          (lesson, index) => 
-                              <Lesson key={`${lesson.id}${index}`} lesson={lesson} configuration={configuration} onSelected={() => selectLesson(lesson)} type={type}/>
+                          (lesson) => 
+                              <Lesson key={lesson.id} lesson={lesson} configuration={configuration} onSelected={() => selectLesson(lesson)} type={type}/>
                       )
                   }
               })()

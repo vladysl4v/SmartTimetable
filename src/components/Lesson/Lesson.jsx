@@ -23,7 +23,20 @@ export const Lesson = ({lesson, onSelected, configuration, type}) => {
             <td>{lesson.discipline}</td>
             <td>{lesson.studyType}</td>
             <td>{lesson.cabinet}</td>
-            <td>{(type === 'student') ? shortenName(lesson.teacher) : lesson.studyGroup}</td>
+            <td>{(type === 'student') ? shortenName(lesson.teacher) : distinctStudyGroups(lesson.studyGroups)}</td>
         </tr>
     )
+}
+
+const distinctStudyGroups = (studyGroups) => {
+    if (!studyGroups?.length) {
+        return '';
+    }
+    if (studyGroups.length === 1) {
+        return studyGroups[0];
+    }
+    if (studyGroups.length < 5) {
+        return `${studyGroups.length} групи`;
+    }
+    return `${studyGroups.length} груп`;
 }

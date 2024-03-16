@@ -45,7 +45,7 @@ export const LessonsInformation = ({item, changeModalMode, lessonDetails, type, 
           </tr>
           <tr>
             <td className="fw-bold">{(type === 'student') ? 'Викладач' : 'Група'}</td>
-            <td>{(type === 'student') ? item.teacher : item.studyGroup}</td>
+            <td>{(type === 'student') ? item.teacher : constructStudyGroups(item.studyGroups)}</td>
           </tr>
           {
             (item.subgroup?.length) ?
@@ -75,4 +75,8 @@ export const LessonsInformation = ({item, changeModalMode, lessonDetails, type, 
             }
         </>
     )
+}
+
+const constructStudyGroups = (studyGroups) => {
+  return studyGroups?.map((group, index) => <span key={index}>{group}<br/></span>)
 }
