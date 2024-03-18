@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import ReactDOM from 'react-dom/client'
-import {HashRouter, Route, Routes} from "react-router-dom";
+import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Navigation} from "./components/Navigation/Navigation.jsx";
 import {PublicClientApplication} from "@azure/msal-browser";
 import {MsalConfig} from "../msal.config.js";
@@ -23,6 +23,7 @@ const AppRouter = () => {
                 <Route path="/student" element={ <Schedule type='student' /> } />
                 <Route path="/teacher" element={ <Schedule type='teacher' /> } />
                 <Route path="/settings" element={ <Settings /> } />
+                <Route path="*" element={<Navigate to={'/'} />} />
             </Routes>
             <Footer />
         </HashRouter>
