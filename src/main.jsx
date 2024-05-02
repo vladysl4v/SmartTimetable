@@ -23,7 +23,7 @@ const AppRouter = () => {
                 <Route path="/student" element={ <Schedule type='student' /> } />
                 <Route path="/teacher" element={ <Schedule type='teacher' /> } />
                 <Route path="/settings" element={ <Settings /> } />
-                <Route path="*" element={<Navigate to={'/'} />} />
+                <Route path="*" element={ <Navigate to={'/'} />} />
             </Routes>
             <Footer />
         </HashRouter>
