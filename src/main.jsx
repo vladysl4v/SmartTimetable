@@ -12,6 +12,7 @@ import {Settings} from "./pages/Settings/Settings.jsx";
 import Schedule from "./pages/Schedule/Schedule.jsx";
 import {Footer} from "./components/Footer/Footer.jsx";
 import {Welcome} from "./pages/Welcome/Welcome.jsx";
+import {AddToHomescreenOffer} from "./components/AddToHomescreenOffer/AddToHomescreenOffer.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const AppRouter = () => {
@@ -26,6 +27,7 @@ const AppRouter = () => {
                 <Route path="*" element={ <Navigate to={'/'} />} />
             </Routes>
             <Footer />
+            <AddToHomescreenOffer />
         </HashRouter>
     );
 }

@@ -1,0 +1,7 @@
+.colored {
+    background: linear-gradient(120deg, rgb(54, 54, 55) -0.88%, rgb(64, 69, 75) 100%);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
