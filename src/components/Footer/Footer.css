@@ -12,3 +12,7 @@
     color: #6e748a !important;
     text-decoration: none;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
