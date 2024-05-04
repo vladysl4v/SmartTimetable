@@ -13,6 +13,7 @@ import Schedule from "./pages/Schedule/Schedule.jsx";
 import {Footer} from "./components/Footer/Footer.jsx";
 import {Welcome} from "./pages/Welcome/Welcome.jsx";
 import {AddToHomescreenOffer} from "./components/AddToHomescreenOffer/AddToHomescreenOffer.jsx";
+import axios from "axios";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const AppRouter = () => {
@@ -32,6 +33,7 @@ const AppRouter = () => {
     );
 }
 const client = new PublicClientApplication(MsalConfig);
+axios.defaults.validateStatus = () => true;
 
 ReactDOM.createRoot(document.getElementById('root')).render(
         <MsalProvider instance={client}> 
