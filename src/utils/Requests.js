@@ -4,6 +4,27 @@ import {MsalScopes} from "../../msal.config.js";
 
 const API_URL = 'https://smart-timetable-app-2e1b4711270e.herokuapp.com/api'
 
+export const getCabinetPathBlob = async (cabinetNumber, accessToken) => {
+    const requestUrl = `${API_URL}/cabinets/${cabinetNumber}`
+    const requestConfig = {
+        headers: {
+            'Authorization': `BEARER ${accessToken}`
+        },
+        responseType: 'blob'
+    }
+    return await axios.get(requestUrl, requestConfig)
+}
+
+export const headIsCabinetExists = async (cabinetNumber, accessToken) => {
+    const requestUrl = `${API_URL}/cabinets/${cabinetNumber}`
+    const requestConfig = {
+        headers: {
+            'Authorization': `BEARER ${accessToken}`
+        }
+    }
+    return await axios.head(requestUrl, requestConfig)
+}
+
 export const getStudentLessonDetails = async (id, date, start, end, accessToken) => {
     const requestUrl = `${API_URL}/students/schedules/details/${id}`
     const requestConfig = {

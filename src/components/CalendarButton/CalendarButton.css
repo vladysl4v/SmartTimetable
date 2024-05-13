@@ -2,3 +2,7 @@
     border-radius: 40px;
     min-width: 160px;
 }
+
+.date-button:hover::-webkit-calendar-picker-indicator, .date-button:focus::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}

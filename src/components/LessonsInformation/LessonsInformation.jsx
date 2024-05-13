@@ -1,7 +1,7 @@
 import './LessonsInformation.css'
 import {Button, Spinner} from "react-bootstrap";
 
-export const LessonsInformation = ({item, changeModalMode, lessonDetails, type, isAuthorized}) => {
+export const LessonsInformation = ({item, changeModalMode, lessonDetails, type, isAuthorized, isCabinetExists}) => {
   const changeIfLoaded = (mode) => {
     if (lessonDetails != null) {
       changeModalMode(mode)
@@ -41,7 +41,7 @@ export const LessonsInformation = ({item, changeModalMode, lessonDetails, type, 
           </tr>
           <tr>
             <td className="fw-bold">Аудиторія</td>
-            <td>{item.cabinet}</td>
+            <td>{item.cabinet} {(isCabinetExists) ? <span className='text-info user-select-none fw-bold cursor-pointer' onClick={() => changeModalMode('cabinet')}>[Це де?]</span> : null}</td>
           </tr>
           <tr>
             <td className="fw-bold">{(type === 'student') ? 'Викладач' : 'Група'}</td>
