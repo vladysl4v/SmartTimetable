@@ -5,7 +5,7 @@ import { getTeacherChairs, getTeacherEmployees, getTeacherFaculties} from "../..
 export const TeacherFiltersSection = ({defaultValues, setValue}) => {
     const [filtersData, setFiltersData] = useState({faculties: [], chairs: [], employees: []})
     useEffect(() => { loadFilters(defaultValues, setFiltersData) }, [])
-    useEffect(() => { refreshFilters(defaultValues, setFiltersData, filtersData) }, [defaultValues])
+    useEffect(() => { refreshFilters(defaultValues, setFiltersData) }, [defaultValues])
     return (
         <>
             <p>Налаштування розкладу викладача</p>
@@ -38,13 +38,13 @@ const loadFilters = async (localStorage, setFilters) => {
     setFilters(filters)
 }
 
-const refreshFilters = async (localStorage, setFilters, filters) => {
+const refreshFilters = async (localStorage, setFilters) => {
     const chairsResponse = await getTeacherChairs(localStorage.teacherFaculty?.key)
     const employeesResponse = await getTeacherEmployees(localStorage.teacherFaculty?.key, localStorage.teacherChair?.key)
     if (chairsResponse?.status === 200) {
-        setFilters({...filters, chairs: chairsResponse.data.filters})
+        setFilters(filters => ({...filters, chairs: chairsResponse.data.filters}))
     }
     if (employeesResponse?.status === 200) {
-        setFilters({...filters, employees: employeesResponse.data.filters})
+        setFilters(filters => ({...filters, employees: employeesResponse.data.filters}))
     }
 }
