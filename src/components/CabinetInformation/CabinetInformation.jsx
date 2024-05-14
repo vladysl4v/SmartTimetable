@@ -11,7 +11,7 @@ export const CabinetInformation = ({cabinet, configuration}) => {
     
     return (
         <div className='text-center'>
-            {imageSrc !== null ? <img src={imageSrc} alt={`Path to cab ${cabinet}`} className='rounded-3' style={{maxWidth:'100%'}}/>
+            {imageSrc !== null ? <img src={imageSrc} alt={`Path to cab ${cabinet}`} className='rounded-3 mw-100'/>
             : <Spinner className='mx-center' animation='border' variant="info" size='sm'/>}
             <p className='fst-italic mt-3'>Шлях до кабінету {cabinet}
                 <br/>

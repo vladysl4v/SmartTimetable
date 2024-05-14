@@ -12,7 +12,8 @@
 }
 
 
-.btn-outline-light:hover .fa-gradient {
+.btn-outline-light:hover .fa-gradient,
+.btn-outline-light:focus .fa-gradient {
     background: linear-gradient(to right, rgb(54, 54, 55) -0.88%, transparent);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
